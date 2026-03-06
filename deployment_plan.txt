@@ -1,0 +1,42 @@
+requirements.txt:
+```
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+```
+
+Run Instructions:
+1. Clone the repository: `git clone <repository-url>`
+2. Navigate to the project directory: `cd MarkdownBlog`
+3. Run the application using Docker: `docker-compose up --build`
+
+Dockerfile:
+```dockerfile
+# Use the official Python image from the Docker Hub
+FROM python:3.9
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install the dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code into the container
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Command to run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+Deployment Suggestion: Use Render for deployment. Steps:
+1. Sign up for a free Render account.
+2. Create a new Web Service and connect your GitHub repository.
+3. Set the build command to `docker build -t markdownblog .` and the start command to `docker run -p 8000:8000 markdownblog`.
+4. Deploy the service and access your Markdown Blog at the provided URL.
